@@ -3,7 +3,7 @@
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
 .utmp/
-/[Ll]ibrary/
+[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
 /[Bb]uild/
@@ -11,6 +11,15 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 *.log
+
+# Ignore Vuforia SDK files
+[Vv]uforia/
+Asset/Vuforia/
+Assets/Editor/Vuforia/
+Assets/StreamingAssets/Vuforia/
+*.dat
+*.xml
+*.vu
 
 # By default unity supports Blender asset imports, *.blend1 blender files do not need to be commited to version control.
 *.blend1
