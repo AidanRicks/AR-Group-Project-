@@ -11,7 +11,7 @@ public class CameraController : MonoBehaviour
 
     [Header("Zoom Settings")]
     [SerializeField] private float minZoom = 5f;
-    [SerializeField] private float maxZoom = 15f;
+    [SerializeField] private float maxZoom = 8f;
     [SerializeField] private float zoomLimiter = 10f;
     [SerializeField] private float zoomSpeed = 5f;
 
