@@ -22,7 +22,6 @@ public class PlayerMovement : MonoBehaviour
 
 
     private Rigidbody2D body;
-    private Animator anim;
     private BoxCollider2D boxCollider;
     private float horizontalInput;
     private Vector2 moveInput;
@@ -34,7 +33,6 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
     }
 
@@ -49,9 +47,7 @@ public class PlayerMovement : MonoBehaviour
         else if (horizontalInput < -0.01f)
             transform.localScale = new Vector3(-1, 1, 1);
 
-        // Animation
-        anim.SetBool("Running", horizontalInput != 0);
-        anim.SetBool("grounded", isGrounded());
+
 
         // Jump input
         if (Input.GetKeyDown(KeyCode.Space))
