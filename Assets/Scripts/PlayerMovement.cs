@@ -1,13 +1,9 @@
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-
-
-
-    [Header("Movement Parameters")]
+    [Header("Movement Settings")]
     [SerializeField] private float speed = 8f;
     [SerializeField] private float jumpPower = 16f;
 
@@ -15,20 +11,18 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float coyoteTime = 0.2f;
     private float coyoteCounter;
 
-
     [Header("Layers")]
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private LayerMask wallLayer;
-
 
     private Rigidbody2D body;
     private BoxCollider2D boxCollider;
-    private float horizontalInput;
+
+    // Input values from PlayerInput
     private Vector2 moveInput;
 
-    // Double jump variables
-    private const int maxJumps = 1;
+    // Double jump
     private int jumpCounter;
+    private int maxJumps = 1;
 
     private void Awake()
     {
@@ -38,54 +32,46 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
-        moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        HandleMovement();
+        HandleSpriteFlip();
+        HandleCoyoteTime();
+    }
 
-        // Flip sprite
-        if (horizontalInput > 0.01f)
+    // -------------------------------
+    // MOVEMENT
+    // -------------------------------
+    private void HandleMovement()
+    {
+        body.linearVelocity = new Vector2(moveInput.x * speed, body.linearVelocity.y);
+    }
+
+    private void HandleSpriteFlip()
+    {
+        if (moveInput.x > 0.01f)
             transform.localScale = Vector3.one;
-        else if (horizontalInput < -0.01f)
+        else if (moveInput.x < -0.01f)
             transform.localScale = new Vector3(-1, 1, 1);
+    }
 
-
-
-        // Jump input
-        if (Input.GetKeyDown(KeyCode.Space))
-            Jump();
-
-
+    // -------------------------------
+    // JUMPING
+    // -------------------------------
+    private void HandleCoyoteTime()
+    {
+        if (IsGrounded())
+        {
+            coyoteCounter = coyoteTime;
+            jumpCounter = maxJumps;
+        }
         else
         {
-            // Normal movement
-            body.gravityScale = 7;
-            body.linearVelocity = new Vector2(horizontalInput * speed, body.linearVelocity.y);
-
-            if (isGrounded())
-            {
-                coyoteCounter = coyoteTime;
-                jumpCounter = maxJumps;
-            }
-            else
-            {
-                coyoteCounter -= Time.deltaTime;
-            }
+            coyoteCounter -= Time.deltaTime;
         }
-
     }
 
-    private void Jump()
+    private bool IsGrounded()
     {
-        if (coyoteCounter <= 0 && jumpCounter <= 0)
-            return;
-
-        body.linearVelocity = new Vector2(body.linearVelocity.x, jumpPower);
-        jumpCounter--;
-        coyoteCounter = 0;
-    }
-
-    private bool isGrounded()
-    {
-        RaycastHit2D hit = Physics2D.BoxCast(
+        return Physics2D.BoxCast(
             boxCollider.bounds.center,
             boxCollider.bounds.size,
             0,
@@ -93,21 +79,30 @@ public class PlayerMovement : MonoBehaviour
             0.1f,
             groundLayer
         );
-        return hit.collider != null;
     }
 
-    private bool onWall()
+    private void PerformJump()
     {
-        RaycastHit2D hit = Physics2D.BoxCast(
-            boxCollider.bounds.center,
-            boxCollider.bounds.size,
-            0,
-            new Vector2(transform.localScale.x, 0),
-            0.1f,
-            wallLayer
-        );
-        return hit.collider != null;
+        if (coyoteCounter <= 0 && jumpCounter <= 0)
+            return;
+
+        body.linearVelocity = new Vector2(body.linearVelocity.x, jumpPower);
+
+        jumpCounter--;
+        coyoteCounter = 0;
     }
 
-   
+    // -------------------------------
+    // INPUT SYSTEM EVENTS
+    // -------------------------------
+    public void OnMove(InputValue value)
+    {
+        moveInput = value.Get<Vector2>();
+    }
+
+    public void OnJump(InputValue value)
+    {
+        if (value.isPressed)
+            PerformJump();
+    }
 }
