@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class OutofRange : MonoBehaviour
+public class OutOfRange : MonoBehaviour
 {
     private void OnTriggerExit2D(Collider2D collision)
     {
-        // Check if what exited is the player
-        Health playerHealth = collision.GetComponent<Health>();
+        // Check if the object exiting has a Health component in itself or its parents
+        Health playerHealth = collision.GetComponentInParent<Health>();
 
         if (playerHealth != null)
         {

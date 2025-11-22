@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using System.Data;
 using UnityEngine;
 
@@ -11,7 +10,7 @@ public class Health : MonoBehaviour
     [SerializeField] private float startingHealth;
     public float currentHealth { get; private set; }
     //private Animator anim;
-    bool dead;
+    bool dead = false;
 
 
     private void Awake()
@@ -29,30 +28,7 @@ public class Health : MonoBehaviour
             //anim.SetTrigger("hurt");
 
         }
-        else
-        {
-            if (!dead)
-            {
-                //anim.SetTrigger("die");
-                dead = true;
-                StartCoroutine(WaitAndAct());
-
-            }
-        }
-
     }
-
-
-    private IEnumerator WaitAndAct()
-    {
-        yield return new WaitForSeconds(0.5f);
-
-        // Do something after 0.5 seconds
-        gameObject.SetActive(false);
-
-    }
-
-   
 
 
     public void Update()
@@ -61,6 +37,9 @@ public class Health : MonoBehaviour
         if (boxCollider != null && dead == true)
         {
             boxCollider.enabled = false;
+            gameObject.SetActive(false);
+            dead = true;
+
         }
     }
 
