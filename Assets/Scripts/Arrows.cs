@@ -1,9 +1,10 @@
+using System.Collections;
 using UnityEngine;
 
-public class ArrowKeys : MonoBehaviour
+public class ArrowMovement : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] private float speed = 5f;
+    [SerializeField] public float speed = 5f;
     [SerializeField] private float jumpPower = 12f;
     [SerializeField] private SizeRestraint sizeRestraint;
 
@@ -18,17 +19,14 @@ public class ArrowKeys : MonoBehaviour
     [SerializeField] private float groundCheckRadius = 0.15f;
     [SerializeField] private LayerMask groundLayer;
 
-    [Header("Ball Form")]
-    [SerializeField] private KeyCode rollKey = KeyCode.X;
-    [SerializeField] private float ballSpeedMultiplier = 2f;
-    [SerializeField] private float rotationSpeed = 720f; // Degrees per second while rolling
-    [SerializeField] private CircleCollider2D ballCollider;
-    [SerializeField] private BoxCollider2D normalCollider;
-
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private Animator anim;
-    private float horizontalInput;
-    private bool isRolling = false;
+
+    [HideInInspector] public float horizontalInput;
+
+    // These are controlled by the roll ability
+    [HideInInspector] public bool blockMovement = false;
+    [HideInInspector] public bool blockJumping = false;
 
     private void Awake()
     {
@@ -41,37 +39,36 @@ public class ArrowKeys : MonoBehaviour
         HandleInput();
         HandleJump();
         HandleCoyoteTime();
-        HandleRolling();
         UpdateAnimator();
     }
 
     private void FixedUpdate()
     {
         Move();
-        RotateWhileRolling();
     }
 
     private void HandleInput()
     {
-        // Arrow key movement
+        if (blockMovement)
+        {
+            horizontalInput = 0;
+            return;
+        }
+
         horizontalInput = 0;
         if (Input.GetKey(KeyCode.LeftArrow)) horizontalInput = -1f;
         if (Input.GetKey(KeyCode.RightArrow)) horizontalInput = 1f;
 
-        // Flip sprite based on movement
         if (horizontalInput != 0)
-        {
-            bool facingRight = horizontalInput > 0;
-            sizeRestraint.Flip(facingRight);
-        }
+            sizeRestraint.Flip(horizontalInput > 0);
     }
 
     private void HandleJump()
     {
+        if (blockJumping) return;
+
         if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
             Jump();
-        }
     }
 
     private void HandleCoyoteTime()
@@ -87,31 +84,9 @@ public class ArrowKeys : MonoBehaviour
         }
     }
 
-    private void HandleRolling()
-    {
-        if (Input.GetKey(rollKey))
-        {
-            if (!isRolling) EnterBallForm(); // Sets isRolling = true and anim.SetBool("rolling", true)
-        }
-        else
-        {
-            if (isRolling) ExitBallForm(); // Sets isRolling = false and anim.SetBool("rolling", false)
-        }
-    }
-
     private void Move()
     {
-        float currentSpeed = isRolling ? speed * ballSpeedMultiplier : speed;
-        rb.linearVelocity = new Vector2(horizontalInput * currentSpeed, rb.linearVelocity.y);
-    }
-
-    private void RotateWhileRolling()
-    {
-        if (isRolling && horizontalInput != 0)
-        {
-            float rotationAmount = rotationSpeed * Time.fixedDeltaTime * Mathf.Sign(horizontalInput);
-            transform.Rotate(0, 0, -rotationAmount);
-        }
+        rb.linearVelocity = new Vector2(horizontalInput * speed, rb.linearVelocity.y);
     }
 
     private void Jump()
@@ -128,33 +103,6 @@ public class ArrowKeys : MonoBehaviour
         if (anim) anim.SetTrigger("jump");
     }
 
-    private void EnterBallForm()
-    {
-        isRolling = true;
-        anim.SetBool("rolling", true);
-
-        // Swap colliders if assigned
-        if (ballCollider != null && normalCollider != null)
-        {
-            normalCollider.enabled = false;
-            ballCollider.enabled = true;
-        }
-    }
-
-    private void ExitBallForm()
-    {
-        isRolling = false;
-        anim.SetBool("rolling", false);
-        transform.rotation = Quaternion.identity;
-
-        // Swap colliders back
-        if (ballCollider != null && normalCollider != null)
-        {
-            normalCollider.enabled = true;
-            ballCollider.enabled = false;
-        }
-    }
-
     private void UpdateAnimator()
     {
         if (anim)
@@ -164,7 +112,7 @@ public class ArrowKeys : MonoBehaviour
         }
     }
 
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
     }
