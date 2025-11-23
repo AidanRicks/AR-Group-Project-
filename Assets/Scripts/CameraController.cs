@@ -39,7 +39,7 @@ public class CameraController : MonoBehaviour
         Vector3 targetPos = new Vector3(
             midpoint.x,
             midpoint.y,
-            transform.position.z    // Keep the camera's Z distance
+            transform.position.z // Keep the camera's Z distance
         );
 
         transform.position = Vector3.Lerp(transform.position, targetPos, followSpeed * Time.deltaTime);

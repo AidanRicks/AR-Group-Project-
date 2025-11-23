@@ -1,10 +1,9 @@
-using System.Collections;
 using UnityEngine;
 
 public class WASD : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] public float speed = 5f;
+    public float speed = 5f;
     [SerializeField] private float jumpPower = 12f;
     [SerializeField] private SizeRestraint sizeRestraint;
 
@@ -24,7 +23,6 @@ public class WASD : MonoBehaviour
 
     [HideInInspector] public float horizontalInput;
 
-    // These are controlled by the roll ability
     [HideInInspector] public bool blockMovement = false;
     [HideInInspector] public bool blockJumping = false;
 
@@ -32,6 +30,10 @@ public class WASD : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        // Prevent sticking to colliders
+        rb.sharedMaterial = new PhysicsMaterial2D() { friction = 0f, bounciness = 0f };
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
     }
 
     private void Update()
@@ -55,9 +57,7 @@ public class WASD : MonoBehaviour
             return;
         }
 
-        horizontalInput = 0;
-        if (Input.GetKey(KeyCode.A)) horizontalInput = -1f;
-        if (Input.GetKey(KeyCode.D)) horizontalInput = 1f;
+        horizontalInput = Input.GetKey(KeyCode.D) ? 1f : Input.GetKey(KeyCode.A) ? -1f : 0f;
 
         if (horizontalInput != 0)
             sizeRestraint.Flip(horizontalInput > 0);
@@ -86,6 +86,7 @@ public class WASD : MonoBehaviour
 
     private void Move()
     {
+        // Smooth horizontal movement while allowing fall through
         rb.linearVelocity = new Vector2(horizontalInput * speed, rb.linearVelocity.y);
     }
 
@@ -114,6 +115,8 @@ public class WASD : MonoBehaviour
 
     public bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        // Cast a small downward ray to only detect ground below the player
+        RaycastHit2D hit = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckRadius, groundLayer);
+        return hit.collider != null;
     }
 }
