@@ -1,10 +1,22 @@
 fileFormatVersion: 2
-guid: 9a7fb802db5935349b18cc739f36b7a9
+guid: b9c0259cf48638547b297131cf8d2b0a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7353074182112396816
-    second: Background MAP 2_0
+      213: 2424756848951531175
+    second: Rock roll_0
+  - first:
+      213: -4652844161607069694
+    second: Rock roll_1
+  - first:
+      213: 8176032980133261661
+    second: Rock roll_2
+  - first:
+      213: 8490943907989696075
+    second: Rock roll_3
+  - first:
+      213: -974764642225972632
+    second: Rock roll_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -178,13 +190,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Background MAP 2_0
+      name: Rock roll_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 2000
-        height: 1000
+        x: 223
+        y: 2239
+        width: 534
+        height: 786
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,8 +205,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 016c7e7a20e5b0660800000000000000
-      internalID: 7353074182112396816
+      spriteID: 7a69378d18776a120800000000000000
+      internalID: 2424756848951531175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rock roll_1
+      rect:
+        serializedVersion: 2
+        x: 1273
+        y: 2239
+        width: 562
+        height: 716
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 200192803e6cd6fb0800000000000000
+      internalID: -4652844161607069694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rock roll_2
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 1189
+        width: 576
+        height: 646
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d51b8bc4daa177170800000000000000
+      internalID: 8176032980133261661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rock roll_3
+      rect:
+        serializedVersion: 2
+        x: 1273
+        y: 1189
+        width: 590
+        height: 604
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4e2e735f74e5d570800000000000000
+      internalID: 8490943907989696075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rock roll_4
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 125
+        width: 590
+        height: 562
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86a9280f8b0f872f0800000000000000
+      internalID: -974764642225972632
       vertices: []
       indices: 
       edges: []
@@ -213,7 +313,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Background MAP 2_0: 7353074182112396816
+      Rock roll_0: 2424756848951531175
+      Rock roll_1: -4652844161607069694
+      Rock roll_2: 8176032980133261661
+      Rock roll_3: 8490943907989696075
+      Rock roll_4: -974764642225972632
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
