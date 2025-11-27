@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [Header("Players")]
-    [SerializeField] private Transform player1;
-    [SerializeField] private Transform player2;
+    [Header("Players (Parent Objects)")]
+    [SerializeField] private Transform player1Parent;
+    [SerializeField] private Transform player2Parent;
 
     [Header("Camera Movement")]
     [SerializeField] private float followSpeed = 5f;
@@ -24,33 +24,59 @@ public class CameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (player1 == null || player2 == null)
+        // Get the active child of each player parent
+        Transform player1 = GetActiveChild(player1Parent);
+        Transform player2 = GetActiveChild(player2Parent);
+
+        // If both are null, do nothing
+        if (player1 == null && player2 == null)
             return;
 
-        UpdatePosition();
-        UpdateZoom();
+        UpdatePosition(player1, player2);
+        UpdateZoom(player1, player2);
     }
 
-    private void UpdatePosition()
+    private Transform GetActiveChild(Transform parent)
     {
-        // Always focus exactly on the midpoint — the CENTER of the action
-        Vector3 midpoint = (player1.position + player2.position) / 2f;
+        if (parent == null) return null;
 
-        Vector3 targetPos = new Vector3(
-            midpoint.x,
-            midpoint.y,
-            transform.position.z // Keep the camera's Z distance
-        );
+        foreach (Transform child in parent)
+        {
+            if (child.gameObject.activeInHierarchy)
+                return child; // Return the first active child
+        }
 
+        return null; // No active children
+    }
+
+    private void UpdatePosition(Transform player1, Transform player2)
+    {
+        Vector3 midpoint;
+
+        if (player1 != null && player2 != null)
+            midpoint = (player1.position + player2.position) / 2f;
+        else if (player1 != null)
+            midpoint = player1.position;
+        else
+            midpoint = player2.position;
+
+        Vector3 targetPos = new Vector3(midpoint.x, midpoint.y, transform.position.z);
         transform.position = Vector3.Lerp(transform.position, targetPos, followSpeed * Time.deltaTime);
     }
 
-    private void UpdateZoom()
+    private void UpdateZoom(Transform player1, Transform player2)
     {
-        float distance = Vector2.Distance(player1.position, player2.position);
+        float targetZoom = minZoom;
 
-        // Convert distance -> zoom value  
-        float targetZoom = Mathf.Lerp(minZoom, maxZoom, distance / zoomLimiter);
+        if (player1 != null && player2 != null)
+        {
+            float distance = Vector2.Distance(player1.position, player2.position);
+            targetZoom = Mathf.Lerp(minZoom, maxZoom, distance / zoomLimiter);
+        }
+        else if (player1 != null || player2 != null)
+        {
+            targetZoom = minZoom; // Zoom in if only one active child
+        }
 
         cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetZoom, zoomSpeed * Time.deltaTime);
     }

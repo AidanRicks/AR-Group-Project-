@@ -1,48 +1,76 @@
-
-using System.Data;
 using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-
+    [HideInInspector] public bool invincible = false;
 
     [Header("Health")]
-    [SerializeField] private float startingHealth;
-    public float currentHealth { get; private set; }
-    //private Animator anim;
-    bool dead = false;
+    [SerializeField] private float startingHealth = 100f;
+    [SerializeField] private float deathDelay = 1.2f;  // time before despawning
 
+    public float currentHealth { get; private set; }
+
+    private Animator anim;
+    private bool dead = false;
+    private BoxCollider2D boxCollider;
+
+    // Store all scripts that should disable upon death
+    private MonoBehaviour[] playerScripts;
 
     private void Awake()
     {
         currentHealth = startingHealth;
-        //anim = GetComponent<Animator>();
-        //spriteRend = GetComponent<SpriteRenderer>();
+        boxCollider = GetComponent<BoxCollider2D>();
+        anim = GetComponent<Animator>();
+
+        // Cache every script on the player EXCEPT this one
+        playerScripts = GetComponents<MonoBehaviour>();
     }
-    public void TakeDamage(float _damage)
+
+    public void TakeDamage(float damage)
     {
-        currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
+        if (dead || invincible) return;  // skip damage if invincible
+
+        currentHealth = Mathf.Clamp(currentHealth - damage, 0, startingHealth);
 
         if (currentHealth > 0)
         {
-            //anim.SetTrigger("hurt");
-
+            anim.SetTrigger("hurt");
         }
-    }
-
-
-    public void Update()
-    {
-        BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
-        if (boxCollider != null && dead == true)
+        else
         {
-            boxCollider.enabled = false;
-            gameObject.SetActive(false);
-            dead = true;
-
+            Die();
         }
     }
 
+    private void Die()
+    {
+        dead = true;
+
+        // Trigger death animation
+        anim.SetTrigger("die");
+
+        // Disable the hitbox immediately
+        if (boxCollider)
+            boxCollider.enabled = false;
+
+        // Disable all player behavior scripts (movement, attacking, etc.)
+        foreach (var script in playerScripts)
+        {
+            if (script != this)
+                script.enabled = false;
+        }
+
+        // Begin delayed removal
+        StartCoroutine(DeathSequence());
+    }
+
+    private System.Collections.IEnumerator DeathSequence()
+    {
+        // Optional: wait for animation length
+        yield return new WaitForSeconds(deathDelay);
+
+        // Finally deactivate the player object
+        gameObject.SetActive(false);
+    }
 }
-
-

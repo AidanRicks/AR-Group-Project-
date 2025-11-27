@@ -1,10 +1,9 @@
-using System.Collections;
 using UnityEngine;
 
-public class ArrowMovement : MonoBehaviour
+public class Arrows : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] public float speed = 5f;
+    public float speed = 5f;
     [SerializeField] private float jumpPower = 12f;
     [SerializeField] private SizeRestraint sizeRestraint;
 
@@ -24,7 +23,6 @@ public class ArrowMovement : MonoBehaviour
 
     [HideInInspector] public float horizontalInput;
 
-    // These are controlled by the roll ability
     [HideInInspector] public bool blockMovement = false;
     [HideInInspector] public bool blockJumping = false;
 
@@ -32,6 +30,10 @@ public class ArrowMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        // Prevent sticking to colliders
+        rb.sharedMaterial = new PhysicsMaterial2D() { friction = 0f, bounciness = 0f };
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
     }
 
     private void Update()
@@ -55,9 +57,8 @@ public class ArrowMovement : MonoBehaviour
             return;
         }
 
-        horizontalInput = 0;
-        if (Input.GetKey(KeyCode.LeftArrow)) horizontalInput = -1f;
-        if (Input.GetKey(KeyCode.RightArrow)) horizontalInput = 1f;
+        horizontalInput = Input.GetKey(KeyCode.RightArrow) ? 1f :
+                          Input.GetKey(KeyCode.LeftArrow) ? -1f : 0f;
 
         if (horizontalInput != 0)
             sizeRestraint.Flip(horizontalInput > 0);
@@ -86,6 +87,7 @@ public class ArrowMovement : MonoBehaviour
 
     private void Move()
     {
+        // Smooth horizontal movement while allowing fall through
         rb.linearVelocity = new Vector2(horizontalInput * speed, rb.linearVelocity.y);
     }
 
@@ -114,6 +116,9 @@ public class ArrowMovement : MonoBehaviour
 
     public bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        // Cast a small downward ray to only detect ground below the player
+        RaycastHit2D hit = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckRadius, groundLayer);
+        return hit.collider != null;
     }
 }
+
