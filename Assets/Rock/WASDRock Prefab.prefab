@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 7475190798790583645}
   m_Layer: 10
   m_Name: WASDRock Prefab
-  m_TagString: Untagged
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -297,6 +297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bbf8f4b986dfc547b93f76e572432c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  invincible: 0
   startingHealth: 100
   deathDelay: 1.2
 --- !u!1 &8550107585557126485

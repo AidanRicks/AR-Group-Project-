@@ -51,7 +51,7 @@ GameObject:
   - component: {fileID: 1007142515890343262}
   m_Layer: 11
   m_Name: ArrowsRock Prefab
-  m_TagString: Untagged
+  m_TagString: Player2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -328,5 +328,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bbf8f4b986dfc547b93f76e572432c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  invincible: 0
   startingHealth: 100
   deathDelay: 1.2
