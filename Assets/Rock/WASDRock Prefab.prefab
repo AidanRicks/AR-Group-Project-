@@ -35,7 +35,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.62295, y: -13.09, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8630639730751699928}
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37fe0197304dbf345bb1d3d94d4fcfda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 4
   jumpPower: 20
   sizeRestraint: {fileID: 2050236211268473146}
   coyoteTime: 0.2
@@ -285,6 +285,7 @@ MonoBehaviour:
   rotationSpeed: 750
   ballCollider: {fileID: 6669356474983913919}
   normalCollider: {fileID: 7370072891050543969}
+  rollDamage: 25
 --- !u!114 &7475190798790583645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,6 +298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bbf8f4b986dfc547b93f76e572432c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  invincible: 0
   startingHealth: 100
   deathDelay: 1.2
 --- !u!1 &8550107585557126485
@@ -324,7 +326,7 @@ Transform:
   m_GameObject: {fileID: 8550107585557126485}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.11, y: -3.87, z: 0}
+  m_LocalPosition: {x: -0.11, y: -3.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

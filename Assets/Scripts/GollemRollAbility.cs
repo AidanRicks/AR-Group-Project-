@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GolemRollAbility : MonoBehaviour
@@ -6,14 +7,17 @@ public class GolemRollAbility : MonoBehaviour
     [Header("Roll Settings")]
     [SerializeField] private KeyCode rollKey = KeyCode.X;
     [SerializeField] private float windupTime = 1f;
-    [SerializeField] private float rollDuration = 3f;      // Max time in ball form
-    [SerializeField] private float cooldownTime = 2f;      // Wait time before using again
+    [SerializeField] private float rollDuration = 3f;
+    [SerializeField] private float cooldownTime = 2f;
     [SerializeField] private float ballSpeedMultiplier = 2f;
     [SerializeField] private float rotationSpeed = 720f;
 
     [Header("Colliders")]
     [SerializeField] private CircleCollider2D ballCollider;
     [SerializeField] private BoxCollider2D normalCollider;
+
+    [Header("Roll Damage")]
+    [SerializeField] private float rollDamage = 25f;   // damage dealt on collision while rolling
 
     private WASD wasdMovement;
     private Arrows arrowMovement;
@@ -28,15 +32,16 @@ public class GolemRollAbility : MonoBehaviour
     private float rollTimer = 0f;
     private float cooldownTimer = 0f;
 
+    // Prevents hitting the same enemy multiple times per roll
+    private HashSet<Health> damagedTargets = new HashSet<Health>();
+
     private void Awake()
     {
-        // Detect which movement script exists
         wasdMovement = GetComponent<WASD>();
         arrowMovement = GetComponent<Arrows>();
         anim = GetComponent<Animator>();
         health = GetComponent<Health>();
 
-        // Use Rigidbody2D from whichever movement script exists
         if (wasdMovement != null)
             rb = wasdMovement.rb;
         else if (arrowMovement != null)
@@ -59,7 +64,7 @@ public class GolemRollAbility : MonoBehaviour
         {
             rollingWindup = true;
 
-            // Block player during windup
+            // Block movement & jumping
             if (wasdMovement != null)
             {
                 wasdMovement.blockMovement = true;
@@ -89,20 +94,19 @@ public class GolemRollAbility : MonoBehaviour
     {
         isRolling = true;
         rollTimer = rollDuration;
+
         Debug.Log("ROLL START!");
 
-        // Make player invincible during roll
+        damagedTargets.Clear(); // reset hit list
+
         if (health != null) health.invincible = true;
 
-        // Swap colliders
         if (normalCollider != null) normalCollider.enabled = false;
         if (ballCollider != null) ballCollider.enabled = true;
 
-        // Increase speed
         if (wasdMovement != null) wasdMovement.speed *= ballSpeedMultiplier;
         else if (arrowMovement != null) arrowMovement.speed *= ballSpeedMultiplier;
 
-        // Allow horizontal movement but block jumping
         if (wasdMovement != null) { wasdMovement.blockMovement = false; wasdMovement.blockJumping = true; }
         else if (arrowMovement != null) { arrowMovement.blockMovement = false; arrowMovement.blockJumping = true; }
     }
@@ -115,22 +119,17 @@ public class GolemRollAbility : MonoBehaviour
         anim.SetBool("rolling", false);
         transform.rotation = Quaternion.identity;
 
-        // Keep invincible briefly to prevent death on collider swap
         if (health != null) StartCoroutine(RemoveInvincibilityAfterDelay(0.2f));
 
-        // Restore colliders
         if (ballCollider != null) ballCollider.enabled = false;
         if (normalCollider != null) normalCollider.enabled = true;
 
-        // Reset speed
         if (wasdMovement != null) wasdMovement.speed /= ballSpeedMultiplier;
         else if (arrowMovement != null) arrowMovement.speed /= ballSpeedMultiplier;
 
-        // Restore controls
         if (wasdMovement != null) { wasdMovement.blockMovement = false; wasdMovement.blockJumping = false; }
         else if (arrowMovement != null) { arrowMovement.blockMovement = false; arrowMovement.blockJumping = false; }
 
-        // Start cooldown
         isOnCooldown = true;
         cooldownTimer = cooldownTime;
     }
@@ -170,6 +169,22 @@ public class GolemRollAbility : MonoBehaviour
         {
             float rot = rotationSpeed * Time.deltaTime * Mathf.Sign(h);
             transform.Rotate(0, 0, -rot);
+        }
+    }
+
+    // DAMAGE HANDLER — called whenever ballCollider hits something
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!isRolling) return;
+
+        Health targetHealth = collision.collider.GetComponent<Health>();
+
+        if (targetHealth != null && !damagedTargets.Contains(targetHealth))
+        {
+            damagedTargets.Add(targetHealth); // prevent repeat hits
+            targetHealth.TakeDamage(rollDamage);
+
+            Debug.Log("ROLL HIT! Damaged: " + collision.collider.name);
         }
     }
 }
