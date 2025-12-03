@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5562697544194641440}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: groundcheck
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -47,9 +47,9 @@ GameObject:
   - component: {fileID: 4602983913237222812}
   - component: {fileID: 4793061107628977750}
   - component: {fileID: 8433748685941256694}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: WASDPaper Prefab
-  m_TagString: Untagged
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62,7 +62,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1696195570679716507}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.003293596, y: -0, z: -0, w: 0.99999464}
+  m_LocalRotation: {x: 0.0032899445, y: 0, z: 0, w: 0.9999946}
   m_LocalPosition: {x: 6.8609924, y: 5.3100004, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0

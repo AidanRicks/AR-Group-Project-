@@ -18,13 +18,13 @@ GameObject:
   - component: {fileID: 1981810150165371261}
   - component: {fileID: 5030730279409444193}
   - component: {fileID: 7475190798790583645}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: WASDRock Prefab
-  m_TagString: Untagged
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2324229377577975629
 Transform:
   m_ObjectHideFlags: 0
@@ -35,7 +35,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.62295, y: -13.09, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8630639730751699928}
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37fe0197304dbf345bb1d3d94d4fcfda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  speed: 5
   jumpPower: 20
   sizeRestraint: {fileID: 2050236211268473146}
   coyoteTime: 0.2
@@ -285,7 +285,6 @@ MonoBehaviour:
   rotationSpeed: 750
   ballCollider: {fileID: 6669356474983913919}
   normalCollider: {fileID: 7370072891050543969}
-  rollDamage: 25
 --- !u!114 &7475190798790583645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,7 +325,7 @@ Transform:
   m_GameObject: {fileID: 8550107585557126485}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.11, y: -3.65, z: 0}
+  m_LocalPosition: {x: -0.11, y: -3.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

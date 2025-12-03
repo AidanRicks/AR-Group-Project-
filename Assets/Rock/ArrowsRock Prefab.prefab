@@ -49,13 +49,13 @@ GameObject:
   - component: {fileID: 5179271741746697277}
   - component: {fileID: 7512633230502510877}
   - component: {fileID: 1007142515890343262}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: ArrowsRock Prefab
-  m_TagString: Untagged
+  m_TagString: Player2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1123862515333227607
 Transform:
   m_ObjectHideFlags: 0
@@ -64,9 +64,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 883770074394691030}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.41, y: 8.589999, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4512995404303035581}
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b95480e12ab0c4b4ba5507bde289e562, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  speed: 5
   jumpPower: 20
   sizeRestraint: {fileID: 2121838932212289066}
   coyoteTime: 0.2

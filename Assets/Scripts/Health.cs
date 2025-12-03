@@ -50,7 +50,9 @@ public class Health : MonoBehaviour
         // Trigger death animation
         anim.SetTrigger("die");
 
-
+        // Disable the hitbox immediately
+        if (boxCollider)
+            boxCollider.enabled = false;
 
         // Disable all player behavior scripts (movement, attacking, etc.)
         foreach (var script in playerScripts)
