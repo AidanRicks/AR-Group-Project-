@@ -18,13 +18,13 @@ GameObject:
   - component: {fileID: 1981810150165371261}
   - component: {fileID: 5030730279409444193}
   - component: {fileID: 7475190798790583645}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: WASDRock Prefab
   m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2324229377577975629
 Transform:
   m_ObjectHideFlags: 0

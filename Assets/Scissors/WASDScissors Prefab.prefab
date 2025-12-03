@@ -16,13 +16,13 @@ GameObject:
   - component: {fileID: 7595012635149459881}
   - component: {fileID: 2899726530313278779}
   - component: {fileID: 2855252750711978700}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: WASDScissors Prefab
   m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &902091365717793037
 Transform:
   m_ObjectHideFlags: 0
@@ -31,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 258278827671440895}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 92.781, y: 5.82, z: 0}
   m_LocalScale: {x: -0.3, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0

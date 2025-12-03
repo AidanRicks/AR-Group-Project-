@@ -680,6 +680,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+<<<<<<< HEAD
 --- !u!1 &1235339000
 GameObject:
   m_ObjectHideFlags: 0
@@ -711,6 +712,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+=======
+>>>>>>> upstream/main
 --- !u!1 &1436070813
 GameObject:
   m_ObjectHideFlags: 0
@@ -1069,7 +1072,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8033d25c378ade43bb0fe10c88aa320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   gameSceneName: GameLevelScene
+=======
+  gameSceneName: Map 1
+>>>>>>> upstream/main
   p1SelectionSprites:
   - {fileID: 1596062273}
   - {fileID: 77359572}
@@ -1193,4 +1200,7 @@ SceneRoots:
   - {fileID: 1478194593}
   - {fileID: 1452317297}
   - {fileID: 1156129768}
+<<<<<<< HEAD
   - {fileID: 1235339001}
+=======
+>>>>>>> upstream/main
